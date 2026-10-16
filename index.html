@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="description" content="以 50 家新創公司資料集探索多元線性迴歸、特徵選擇與模型預測。">
+  <title>創業數據實驗室｜多元線性迴歸</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="創業數據實驗室首頁"><span class="brand-mark">∑</span><span>DATA<span class="brand-muted">LAB</span><small>AIoT・資料探勘實驗室</small></span></a>
+    <nav class="topnav" aria-label="主要導覽"><a href="#analysis">分析總覽</a><a href="#model">模型係數</a><a href="#predictor">互動預測</a><a href="#diagnostics">誤差診斷</a></nav>
+    <a class="course-tag" href="#about"><span class="live-dot"></span> 課程專題 <span>↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy"><div class="eyebrow"><span>DATA STORY  /  01</span><span class="eyebrow-line"></span><span>CRISP-DM</span></div>
+        <h1>看懂數字背後的<br><span>創業獲利公式。</span></h1>
+        <p>用 50 家新創公司的真實資料，探索研發、行銷與行政投入如何影響獲利。從特徵選擇到即時預測，一起找出最精簡、最可靠的模型。</p>
+        <a class="hero-link" href="#analysis">開始探索 <span>↓</span></a>
+      </div>
+      <div class="hero-art" aria-label="研發投入與公司獲利趨勢示意圖">
+        <div class="art-top"><span>R&D SPEND</span><span class="art-period">2010 — 2019</span></div>
+        <svg class="hero-chart" viewBox="0 0 560 240" role="img" aria-label="研發投入與獲利呈正向趨勢"><defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#86b7ff" stop-opacity=".28"/><stop offset="1" stop-color="#86b7ff" stop-opacity="0"/></linearGradient></defs><path class="grid" d="M0 48H560M0 96H560M0 144H560M0 192H560"/><path class="area" d="M0 210 C50 200 54 172 97 182 S154 145 195 158 S252 112 289 132 S340 104 380 106 S431 67 465 83 S519 28 560 36 V240 H0Z"/><path class="line" d="M0 210 C50 200 54 172 97 182 S154 145 195 158 S252 112 289 132 S340 104 380 106 S431 67 465 83 S519 28 560 36"/><circle cx="465" cy="83" r="5" class="point"/><circle cx="560" cy="36" r="5" class="point"/><text x="432" y="65" class="chart-label">研發投入</text><text x="497" y="18" class="chart-label">獲利 ↑</text></svg>
+        <div class="art-bottom"><span>投入增加</span><span class="art-arrow">↗</span><span>成長加速</span><span class="art-footnote">趨勢示意・非原始觀測值</span></div>
+      </div>
+    </section>
+
+    <section class="snapshot" aria-label="資料集摘要">
+      <div class="snapshot-heading"><span class="section-index">01</span><div><span class="overline">THE DATASET</span><h2>先認識這份資料</h2></div></div>
+      <div class="snapshot-cards">
+        <article class="stat-card"><span class="stat-icon blue">▦</span><span class="stat-label">觀察樣本</span><strong>50 <small>家新創</small></strong><span class="stat-note">美國三州公司資料</span></article>
+        <article class="stat-card"><span class="stat-icon violet">⌁</span><span class="stat-label">候選特徵</span><strong>4 <small>個變數</small></strong><span class="stat-note">3 項投入・1 項州別</span></article>
+        <article class="stat-card"><span class="stat-icon orange">↗</span><span class="stat-label">預測目標</span><strong>Profit</strong><span class="stat-note">以美元計算的公司獲利</span></article>
+        <article class="stat-card highlight-card"><span class="stat-icon green">✳</span><span class="stat-label">目前最佳組合</span><strong>k = 2</strong><span class="stat-note">RMSE $8,198.80・基準結果</span></article>
+      </div>
+    </section>
+
+    <section class="analysis-section" id="analysis">
+      <div class="section-heading"><div><span class="section-index">02</span><span class="overline">MODEL EXPLORER</span><h2>挑選特徵，找到合適模型</h2></div><p>比較五種特徵選擇方法，觀察變數數量如何改變模型預測表現。</p></div>
+      <div class="explorer-panel">
+        <div class="control-column">
+          <div class="control-group"><div class="control-label"><span class="step">A</span><div><strong>選擇特徵方法</strong><small>FEATURE SELECTION</small></div></div>
+            <div class="method-list" role="group" aria-label="選擇特徵選擇方法">
+              <button class="method active" data-method="lasso"><span class="method-symbol">L₁</span><span><b>Lasso 排序</b><small>依係數大小篩選</small></span><span class="method-check">✓</span></button>
+              <button class="method" data-method="sfs"><span class="method-symbol">→</span><span><b>前向逐步選擇</b><small>逐步加入最佳變數</small></span><span class="method-check">✓</span></button>
+              <button class="method" data-method="rfe"><span class="method-symbol">⌫</span><span><b>遞迴特徵消除</b><small>反覆移除弱特徵</small></span><span class="method-check">✓</span></button>
+              <button class="method" data-method="elastic"><span class="method-symbol">⊕</span><span><b>Elastic Net</b><small>結合 L1 與 L2 正則化</small></span><span class="method-check">✓</span></button>
+              <button class="method" data-method="exhaustive"><span class="method-symbol">⌘</span><span><b>窮舉搜尋</b><small>比較所有特徵組合</small></span><span class="method-check">✓</span></button>
+              <button class="method compare-method" data-method="compare"><span class="method-symbol">✳</span><span><b>比較所有方法</b><small>同時檢視五種結果</small></span><span class="method-check">✓</span></button>
+            </div>
+          </div>
+          <div class="control-group k-group"><div class="control-label"><span class="step">B</span><div><strong>模型使用幾個特徵？</strong><small>NUMBER OF FEATURES</small></div></div>
+            <div class="k-picker" role="group" aria-label="選擇模型特徵數量"><button data-k="1"><b>01</b><span>個變數</span></button><button class="selected" data-k="2"><b>02</b><span>個變數</span><i>最佳</i></button><button data-k="3"><b>03</b><span>個變數</span></button><button data-k="4"><b>04</b><span>個變數</span></button><button data-k="5"><b>05</b><span>個變數</span><i class="warning">留意</i></button></div>
+            <div class="k-note"><span>✳</span><span><b>簡約原則</b>：加入更多變數不一定能讓預測更準。</span></div>
+          </div>
+        </div>
+        <div class="results-column"><div class="results-topline"><span class="overline">MODEL PERFORMANCE</span><span class="model-tag"><span class="live-dot"></span><span id="selectedModel">Lasso 排序・2 個特徵</span></span></div>
+          <div class="metric-cards"><article class="metric rmse-metric"><span>測試集 RMSE <span class="info" title="均方根誤差，越低代表預測越準">i</span></span><strong id="rmse">$8,198.80</strong><small id="rmseHint">目前比較中的最低值</small></article><article class="metric"><span>R² 決定係數 <span class="info" title="模型解釋獲利變異的比例">i</span></span><strong id="r2">0.9474</strong><small>越接近 1 越能解釋資料</small></article><article class="metric"><span>調整後 R²</span><strong id="adjR2">0.9324</strong><small>納入特徵數量後的解釋力</small></article></div>
+          <div class="charts-row"><article class="chart-card"><div class="chart-title"><div><span class="overline">BIAS / VARIANCE</span><h3>變數數量與預測誤差</h3></div><span class="chart-legend"><i></i> RMSE</span></div><canvas id="rmseChart" aria-label="各特徵數量對應的 RMSE 折線圖"></canvas><div class="chart-axis-label"><span>變數較少</span><span>特徵數量（k）</span><span>變數較多</span></div></article>
+            <article class="chart-card r2-card"><div class="chart-title"><div><span class="overline">EXPLANATORY POWER</span><h3>模型解釋力</h3></div><span class="chart-legend purple"><i></i> R²</span></div><canvas id="r2Chart" aria-label="各特徵數量對應的 R 平方折線圖"></canvas><div class="chart-axis-label"><span>較低</span><span>R² 分數</span><span>較高</span></div></article></div>
+          <div class="insight-strip"><span class="insight-icon">✳</span><div><b id="insightTitle">兩個特徵表現最佳</b><span id="insightText">R&D Spend 與 Marketing Spend 的組合，在這份基準結果中有最低 RMSE。</span></div><span class="insight-value" id="insightValue">k = 2</span></div><p class="chart-footnote">基準指標參考範例網站；其餘方法與特徵數量的比較曲線為教學示意，並非本頁重新訓練模型所得。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="equation-section" id="model"><div class="equation-intro"><span class="section-index">03</span><span class="overline">INSIDE THE MODEL</span><h2>把模型拆開來看</h2><p>回歸方程式將各項投入轉換成可解讀的預測結果。係數呈現變數和獲利之間的線性關係。</p><div class="equation-legend"><span><i class="legend-blue"></i>基準截距</span><span><i class="legend-green"></i>投入變數</span></div></div>
+      <div class="equation-content"><div class="equation-box"><div><span class="equation-label">MULTIPLE LINEAR REGRESSION</span><span class="equation-badge">OLS・最小平方法</span></div><p><span class="eq-profit">Profit</span> <span class="eq-muted">=</span> <span class="eq-intercept">46,346.34</span> <span class="eq-muted">+</span> <span class="eq-coef">0.7886</span> <span class="eq-muted">×</span> <span class="eq-feature">R&amp;D Spend</span> <span class="eq-muted">+</span> <span class="eq-coef">0.0326</span> <span class="eq-muted">×</span> <span class="eq-feature">Marketing Spend</span></p><small>係數參考範例基準模型・美元</small></div>
+        <div class="table-wrap"><table class="coef-table"><thead><tr><th>預測變數</th><th>估計係數 β</th><th>標準誤</th><th>t 統計量</th><th>p 值</th><th>共線性 VIF</th></tr></thead><tbody><tr><td><span class="variable-dot"></span>截距 β₀</td><td>46,346.34</td><td>2,971.24</td><td>15.598</td><td><span class="sig">&lt; 0.0001</span></td><td>—</td></tr><tr><td><span class="variable-dot green"></span>R&amp;D Spend</td><td>0.7886</td><td>0.0468</td><td>16.846</td><td><span class="sig">&lt; 0.0001</span></td><td><span class="safe">2.10・安全</span></td></tr><tr><td><span class="variable-dot purple"></span>Marketing Spend</td><td>0.0326</td><td>0.0175</td><td>1.860</td><td><span class="muted-p">0.0708</span></td><td><span class="safe">2.10・安全</span></td></tr></tbody></table></div><p class="table-footnote">* 本頁係數與統計檢定值為範例基準模型的呈現結果。VIF 越接近 1，代表變數間共線性越低。</p>
+      </div>
+    </section>
+
+    <section class="predict-section" id="predictor"><div class="section-heading"><div><span class="section-index">04</span><span class="overline">TRY IT YOURSELF</span><h2>如果我開一家新創公司？</h2></div><p>調整各項預算，看看目前的基準模型會如何估計獲利。</p></div>
+      <div class="predict-card"><div class="predict-controls"><div class="predict-card-heading"><div><span class="overline">LIVE PREDICTOR</span><h3>設定你的投入預算</h3></div><span class="live-tag"><span class="live-dot"></span>即時試算</span></div>
+        <label class="slider-control" for="rdRange"><span><b>研發投入</b><small>Research &amp; Development</small></span><output id="rdOutput" for="rdRange">$100,000</output><input id="rdRange" type="range" min="0" max="250000" step="5000" value="100000"><span class="range-labels"><small>$0</small><small>$250,000</small></span></label>
+        <label class="slider-control" for="marketingRange"><span><b>行銷投入</b><small>Marketing Spend</small></span><output id="marketingOutput" for="marketingRange">$150,000</output><input id="marketingRange" type="range" min="0" max="250000" step="5000" value="150000"><span class="range-labels"><small>$0</small><small>$250,000</small></span></label>
+        <div class="predict-disclaimer">以範例基準模型係數即時估算；投入與獲利的關聯不代表因果保證。</div>
+      </div><div class="prediction-result"><div class="result-orbit orbit-one"></div><div class="result-orbit orbit-two"></div><span class="result-overline">預估公司獲利</span><strong id="prediction">$130,094.66</strong><span class="result-unit">USD・依據目前輸入的投入金額</span><div class="result-breakdown"><div><span>研發投入貢獻</span><b id="rdContribution">+$78,860</b></div><div><span>行銷投入貢獻</span><b id="marketingContribution">+$4,890</b></div></div></div></div>
+    </section>
+
+    <section class="diagnostics-section" id="diagnostics"><div class="section-heading"><div><span class="section-index">05</span><span class="overline">MODEL DIAGNOSTICS</span><h2>哪些預測最不準？</h2></div><p>檢視測試集上預測落差較大的樣本，理解模型在哪些情況仍有改善空間。</p></div>
+      <div class="diagnostic-card"><div class="table-header"><div><span class="overline">OUT-OF-SAMPLE CHECK</span><h3>測試樣本殘差排序</h3></div><span class="sample-count">10 <small>筆測試樣本</small></span></div><div class="table-wrap"><table class="residual-table"><thead><tr><th>排序</th><th>樣本</th><th>實際獲利</th><th>預測獲利</th><th>預測誤差</th><th>相對誤差</th><th>診斷</th></tr></thead><tbody>
+        <tr><td class="rank">01</td><td>新創公司 #38</td><td>$81,229</td><td>$68,335</td><td class="positive">+$12,894</td><td>15.87%</td><td><span class="status high">誤差偏高</span></td></tr>
+        <tr><td class="rank">02</td><td>新創公司 #10</td><td>$146,122</td><td>$134,182</td><td class="positive">+$11,940</td><td>8.17%</td><td><span class="status high">誤差偏高</span></td></tr>
+        <tr><td class="rank">03</td><td>新創公司 #02</td><td>$191,050</td><td>$180,642</td><td class="positive">+$10,408</td><td>5.45%</td><td><span class="status high">誤差偏高</span></td></tr>
+        <tr><td class="rank">04</td><td>新創公司 #11</td><td>$144,259</td><td>$133,874</td><td class="positive">+$10,385</td><td>7.20%</td><td><span class="status high">誤差偏高</span></td></tr>
+        <tr><td class="rank">05</td><td>新創公司 #27</td><td>$105,008</td><td>$114,717</td><td class="negative">−$9,709</td><td>9.25%</td><td><span class="status normal">可接受</span></td></tr>
+        <tr><td class="rank">06</td><td>新創公司 #22</td><td>$110,352</td><td>$114,581</td><td class="negative">−$4,229</td><td>3.83%</td><td><span class="status normal">可接受</span></td></tr>
+        <tr><td class="rank">07</td><td>新創公司 #04</td><td>$166,188</td><td>$170,343</td><td class="negative">−$4,155</td><td>2.50%</td><td><span class="status normal">可接受</span></td></tr>
+        <tr><td class="rank">08</td><td>新創公司 #41</td><td>$77,799</td><td>$73,701</td><td class="positive">+$4,098</td><td>5.27%</td><td><span class="status normal">可接受</span></td></tr>
+        <tr><td class="rank">09</td><td>新創公司 #28</td><td>$103,282</td><td>$102,285</td><td class="positive">+$998</td><td>0.97%</td><td><span class="status normal">可接受</span></td></tr>
+        <tr><td class="rank">10</td><td>新創公司 #31</td><td>$97,484</td><td>$97,433</td><td class="positive">+$50</td><td>0.05%</td><td><span class="status normal">可接受</span></td></tr>
+      </tbody></table></div><div class="diagnostic-note"><span>↗</span><p>殘差是「實際值 − 預測值」。正值表示模型低估獲利，負值表示模型高估。測試集有 10 筆資料，樣本較少時應審慎解讀。</p></div></div>
+    </section>
+
+    <section class="about-section" id="about"><div class="about-mark">∑</div><div><span class="overline">ABOUT THIS PROJECT</span><h2>50 Startups・CRISP-DM 專題</h2><p>本專題示範多元線性迴歸、特徵選擇、模型精簡與測試集診斷。數據來自 Avik Jain 整理的 50 Startups Dataset，方法架構參考 CRISP-DM 資料探勘流程。</p></div><a href="https://github.com/Avik-Jain/100-Days-Of-ML-Code/blob/master/datasets/50_Startups.csv" target="_blank" rel="noreferrer">查看資料來源 <span>↗</span></a></section>
+  </main>
+  <footer><a class="brand footer-brand" href="#top"><span class="brand-mark">∑</span><span>DATA<span class="brand-muted">LAB</span><small>AIoT・資料探勘實驗室</small></span></a><span>多元線性迴歸特徵選擇專題・資料結果僅供教學示範</span><a href="#top">回到頁首 ↑</a></footer>
+  <script src="script.js"></script>
+</body>
+</html>
