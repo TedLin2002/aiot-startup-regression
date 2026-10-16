@@ -20,7 +20,7 @@ function render() {
   $("#rmse").textContent = money(score);
   $("#r2").textContent = scoreR2.toFixed(4);
   $("#adjR2").textContent = (scoreR2 - [0.0144,0.0150,0.0208,0.0283,0.0412][index]).toFixed(4);
-  $("#rmseHint").textContent = state.k === 2 ? "目前比較中的最低值" : state.k === 5 ? "完整模型誤差明顯上升" : "測試集預測誤差";
+  $("#rmseHint").textContent = state.k === 5 ? "完整模型誤差明顯上升" : state.method === "lasso" && state.k === 2 ? "範例基準模型最低值" : state.method === "compare" && state.k === 2 ? "基準點；其他方法為教學示意" : "方法比較教學示意值";
   $("#insightTitle").textContent = state.k === 2 ? "兩個特徵表現最佳" : state.k === 5 ? "留意特徵過多的影響" : `目前選擇 ${state.k} 個特徵`;
   $("#insightText").textContent = state.k === 2 ? "R&D Spend 與 Marketing Spend 的組合，在這份基準結果中有最低 RMSE。" : state.k === 5 ? "完整模型的測試誤差較高；增加特徵不一定會帶來更好的泛化能力。" : `包含 ${featureNames[index]}，可比較模型複雜度與預測誤差的變化。`;
   $("#insightValue").textContent = `k = ${state.k}`;
