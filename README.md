@@ -16,5 +16,4 @@
 
 - 資料集：[50 Startups Dataset](https://github.com/Avik-Jain/100-Days-Of-ML-Code/blob/master/datasets/50_Startups.csv)
 - 流程架構：CRISP-DM
-- 參考案例：[50 Startups Multiple Linear Regression Explorer](https://huanchen1107.github.io/AIoT-DIC2-MultipleLR/)
 - 模型摘要、係數與殘差表中的數字依參考案例作為課堂展示資料。不同特徵選擇方法的比較曲線為互動教學示意值；網站不會重新讀取 CSV 或重新訓練統計模型。頁面上的預測器依基準模型方程式即時試算。
